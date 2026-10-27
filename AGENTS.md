@@ -13,7 +13,7 @@ keychain items. See `README.md` for the full surface.
   supersession is recorded, old records are never rewritten.
 - Reads are public; every mutation requires the `ADMIN_TOKEN` bearer.
 - kagitaba (the cljc library) must stay zero-dep: no crypto/store/network code goes
-  into `orgs/kotoba-lang/kagitaba`. The hosted surface lives HERE.
+  into `orgs/kotoba-lang/kagitaba` (now `lib/kotoba.kagitaba` in `kotoba-lang/kotoba`; the old repository is retired). The hosted surface lives HERE.
 
 ## Layout
 
