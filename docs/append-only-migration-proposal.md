@@ -86,6 +86,20 @@ authorization, any 409/conflict behavior and API changes before implementation.
 
 ## Migration and cutover gates
 
+An offline inspection prototype is available as
+`worker/tools/verify-legacy-snapshot.mjs`. It accepts a local JSON array of
+`{"key":"...","value":"<exact UTF-8 KV value>"}` records and emits key,
+byte count, SHA-256 and structural exceptions. Run
+`node --test worker/tools/verify-legacy-snapshot-check.mjs` for synthetic fixtures, or
+`node worker/tools/verify-legacy-snapshot.mjs <local-snapshot.json>` to inspect
+an authorized export. The input contains sensitive policy data; preserve it
+only in an approved protected location, not in Git or logs. Output contains
+keys and digests and should also be handled as sensitive. This tool neither
+fetches nor changes KV, verifies JWT signatures, proves snapshot completeness,
+nor imports or creates journal events. An empty exception list is not migration
+approval. It hashes the UTF-8 encoding of the supplied string; the exporter must
+preserve the exact bytes and document its own completeness and capture boundary.
+
 1. Identify deployed revision, namespace, all writers, key versions and consumers;
    verify access and ownership without exposing secrets. Establish a supported,
    consistent snapshot method and an independently verifiable inventory. KV list
