@@ -64,6 +64,14 @@ reject that transition rather than create a loop or silently reassign an ID.
 
 ## Concurrency and failure contract
 
+`worker/tools/journal-model.mjs` is an isolated Node executable model for the
+sequence, head comparison, operation-ID and revocation rules. Run
+`node --test worker/tools/journal-model-check.mjs` for synthetic cases. The
+in-memory append in the test is a simulated atomic primitive, not evidence that
+any real store supports conditional append or fencing. The model omits actual
+policy data, signatures, authorization, durable storage, external checkpoints,
+import and crash recovery; it must not be wired into the production Worker.
+
 Resolve the requested ID and read a verified head at sequence N. In a single
 transaction, validate authorization and current non-revoked state, reserve a
 globally unique operation ID and conditional-append against N. A loser must
